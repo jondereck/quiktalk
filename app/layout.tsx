@@ -4,6 +4,7 @@ import { Open_Sans } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { ThemeProvider } from '@/components/provider/theme-provider'
 import { cn } from '@/lib/utils'
+import { ModalProvider } from '@/components/provider/modal-provider'
 
 const font = Open_Sans({ subsets: ['latin'] })
 
@@ -22,14 +23,14 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
 
         <body className={cn(font.className,
-          "bg-[#E45826] dark:bg-[#1B1A17]")}>
+          "bg-[#F5F5F5] dark:bg-[#1B2430]")}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark" 
-            forcedTheme="dark"
             enableSystem={false}
             storageKey="quiktalk-theme"
           >
+          <ModalProvider/>
             {children}
           </ThemeProvider>
         </body>
