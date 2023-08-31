@@ -1,7 +1,8 @@
 import { auth } from "@clerk/nextjs";
-import { db } from "@/lib/prismadb";
+import { db } from "./prismadb";
 
-export const currentProfile =  async () => {
+
+export const currentProfile = async () => {
   const { userId } = auth();
 
   if (!userId) {
@@ -15,6 +16,4 @@ export const currentProfile =  async () => {
   });
 
   return profile;
-
 }
- 
