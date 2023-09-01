@@ -5,6 +5,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { ThemeProvider } from '@/components/provider/theme-provider'
 import { cn } from '@/lib/utils'
 import { ModalProvider } from '@/components/provider/modal-provider'
+import { Toaster } from '@/components/ui/toaster'
 
 const font = Open_Sans({ subsets: ['latin'] })
 
@@ -30,6 +31,7 @@ export default function RootLayout({
             enableSystem={false}
             storageKey="quiktalk-theme"
           >
+          <Toaster/>
           <ModalProvider/>
             {children}
           </ThemeProvider>
