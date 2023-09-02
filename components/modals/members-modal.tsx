@@ -20,6 +20,8 @@ import { ScrollArea } from "../ui/scroll-area";
 import UserAvatar from "../user-avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { toast } from "../ui/use-toast";
+import { currentProfile } from "@/lib/current-profile";
 
 
 const roleIconMap = {
@@ -32,11 +34,44 @@ export const MembersModal = () => {
   const router = useRouter();
   const { onOpen, isOpen, onClose, type, data } = useModal();
   const [loadingId, setLoadingId] = useState("");
+  
 
   const isModalOpen = isOpen && type === "members";
   const { server } = data as { server: ServerWithMembersWithProfiles };
 
   const [isLoading, setIsLoading] = useState(false);
+
+ 
+const onKick = async (memberId: string )   => {
+  try {
+    setLoadingId(memberId);
+    const url = qs.stringifyUrl({
+      url: `/api/members/${memberId}`,
+      query: {
+        serverId: server?.id
+      }
+    });
+    const  profile = await currentProfile();
+    const response = await axios.delete(url);
+
+    toast({
+      title: "Success",
+      description: `${profile?.name} has been deleted`
+    })
+    router.refresh();
+    onOpen("members", { server: response.data})
+
+  } catch (error) {
+    toast({
+      variant: "destructive",
+      title:"Uh oh! Something went wrong.",
+      description:"There was a problem with your request.",
+    })
+    console.log(error)
+  } finally {
+    setLoadingId("")
+  }
+}
 
 
 
@@ -49,8 +84,13 @@ const  onRoleChange = async (memberId: string, role: MemberRole) => {
         serverId: server?.id,
       }
     });
-
+    const profile =  await currentProfile();
     const response  = await axios.patch(url, { role });
+
+    toast({
+      title: "Success",
+      description: `Role for ${profile?.name} has changed`
+    })
     router.refresh();
     onOpen("members", { server: response.data })
   } catch (error) {
@@ -128,7 +168,7 @@ const  onRoleChange = async (memberId: string, role: MemberRole) => {
                         </DropdownMenuPortal>
                       </DropdownMenuSub>
                       <DropdownMenuSeparator/>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onKick(member.id)}>
                         <Gavel className="h-4 w-4 mr-2"/>
                         Kick
                       </DropdownMenuItem>
