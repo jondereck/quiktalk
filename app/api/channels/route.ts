@@ -11,7 +11,7 @@ export async function POST(
     const { name, type } = await req.json();
     const { searchParams } = new URL(req.url)
 
-    const serverId = searchParams.get("ServerId");
+    const serverId = searchParams.get("serverId");
 
 
     if (!profile) {

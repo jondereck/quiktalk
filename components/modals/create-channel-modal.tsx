@@ -119,22 +119,22 @@ export const CreateChannelModal = () => {
                   </FormItem>
                 )}
               />
-              <FormField
+            <FormField
                 control={form.control}
                 name="type"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      Channel Type
-                    </FormLabel>
+                    <FormLabel>Channel Type</FormLabel>
                     <Select
                       disabled={isLoading}
                       onValueChange={field.onChange}
-                      defaultValues={field.value}
+                      defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="bg-zinc-300/50 border-0 focus:ring-0 text-black ring-offset-0 focus:ring-offset-0 capitalize outline-none">
-                          <SelectValue placeholder=" Select channel type" />
+                        <SelectTrigger
+                          className="bg-zinc-300/50 border-0 focus:ring-0 text-black ring-offset-0 focus:ring-offset-0 capitalize outline-none"
+                        >
+                          <SelectValue placeholder="Select a channel type" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -149,7 +149,7 @@ export const CreateChannelModal = () => {
                         ))}
                       </SelectContent>
                     </Select>
-                    <FormMessage/>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
