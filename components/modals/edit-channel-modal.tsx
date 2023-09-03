@@ -33,7 +33,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { useEffect } from "react";
 import { toast } from "../ui/use-toast";
 
-
 const formSchema = z.object({
   name: z.string().min(1, {
     message: "Channel name is required."
@@ -47,49 +46,47 @@ const formSchema = z.object({
 });
 
 
-export const CreateChannelModal = () => {
+export const EditChannelModal = () => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
-  const params = useParams();
 
-  const isModalOpen = isOpen && type === "createChannel";
-  const { channelType } = data;
+
+  const isModalOpen = isOpen && type === "editChannel";
+  const { channel, server } = data;
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      type: channelType || ChannelType.TEXT,
+      type: channel?.type || ChannelType.TEXT,
 
     }
   })
 
   useEffect(() => {
-    if (channelType) {
-      form.setValue("type", channelType);
-    } else  {
-      form.setValue("type", ChannelType.TEXT);
+    if (channel) {
+      form.setValue("name", channel.name);
+      form.setValue("type", channel.type);
     }
-  },[channelType, form])
+  },[form, channel])
 
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = qs.stringifyUrl({
-        url: "/api/channels",
+        url: `/api/channels/${channel?.id}`,
         query: {
-          serverId: params?.serverId
+          serverId: server?.id
         }
       });
-      
 
-      await axios.post(url, values);
+      await axios.patch(url, values);
 
       form.reset();
       toast({
         title: "Success",
-        description: `New channel created`
+        description: "Changes saved successfully"
       })
       router.refresh();
       onClose();
@@ -113,7 +110,7 @@ export const CreateChannelModal = () => {
       <DialogContent className="bg-white text-black p-0 overflow-hidden rounded-xl">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Create your channel
+            Edit Channel
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
@@ -177,7 +174,7 @@ export const CreateChannelModal = () => {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button variant="primary" disabled={isLoading}>
-                Create
+                Save
               </Button>
             </DialogFooter>
           </form>
