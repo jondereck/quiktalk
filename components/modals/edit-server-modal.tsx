@@ -70,12 +70,12 @@ export const EditServerModal = () => {
       await axios.patch(`/api/servers/${server?.id}`, values);
 
       form.reset();
-
+      router.refresh();
       toast({
         title:"Success!",
         description:`${server?.name} successfully saved`,
       })
-      router.refresh();
+      
       onClose();
     } catch (error) {
       console.log(error)
