@@ -1,7 +1,6 @@
 "use client";
 
-import { TooltipContent } from "@radix-ui/react-tooltip";
-import { Tooltip, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
+import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from "./ui/tooltip";
 
 interface ActionTooltipProps {
   label: string;
@@ -23,7 +22,7 @@ export const ActionTooltip = ({
           {children}
         </TooltipTrigger>
         <TooltipContent side={side} align={align}>
-          <p className="font-semibold text-sm capitalize ">
+          <p className="font-semibold text-sm capitalize  ">
             {label.toLowerCase()}
           </p>
         </TooltipContent>

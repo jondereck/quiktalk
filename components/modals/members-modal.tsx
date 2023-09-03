@@ -21,7 +21,7 @@ import UserAvatar from "../user-avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { toast } from "../ui/use-toast";
-import { currentProfile } from "@/lib/current-profile";
+
 import { DeleteConfirmationModal } from "./confirmation-modal";
 
 
